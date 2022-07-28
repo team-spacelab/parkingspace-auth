@@ -3,8 +3,8 @@ FROM public.ecr.aws/docker/library/node:lts-alpine3.16
 COPY . /app
 WORKDIR /app
 
-RUN npm install 
+RUN npx pnpm install 
 
-RUN npm run build
+RUN npx pnpm build
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npx", "pnpm", "start" ]
