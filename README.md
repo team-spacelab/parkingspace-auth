@@ -7,3 +7,8 @@ just type:
 pnpm i
 pnpm dev
 ```
+
+need debug?
+```
+DEBUG=true pnpm dev
+```

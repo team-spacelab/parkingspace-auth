@@ -7,4 +7,4 @@ RUN npx pnpm install
 
 RUN npx pnpm build
 
-CMD [ "npx", "pnpm", "start" ]
+CMD [ "node", "dist/main.js" ]

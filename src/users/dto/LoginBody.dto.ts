@@ -4,7 +4,7 @@ import { IsString } from 'class-validator'
 export class LoginBodyDto {
   @IsString()
   @ApiProperty()
-  public readonly id: string
+  public readonly login: string
 
   @IsString()
   @ApiProperty()

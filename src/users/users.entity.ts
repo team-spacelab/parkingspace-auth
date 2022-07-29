@@ -29,16 +29,16 @@ export class Users {
   public readonly salt: string
 
   @Column({ name: 'users_phone' })
-  public readonly phone: string
+  public readonly phone?: string
 
   @Column({ name: 'users_isverified' })
   public readonly isVerified: boolean
 
   @Column({ name: 'users_realname' })
-  public readonly realname: string
+  public readonly realname?: string
 
   @Column({ name: 'users_birth', type: 'date' })
-  public readonly birthday: Date
+  public readonly birthday?: Date
 
   @Column({ name: 'users_status' })
   public readonly status: UserStatus

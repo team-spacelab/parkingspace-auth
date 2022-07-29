@@ -1,4 +1,4 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common'
+import { BadRequestException, ValidationPipe, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -7,7 +7,9 @@ import { HttpExceptionFilter } from './app/exception.filter'
 
 async function bootstrap () {
   const adapter = new FastifyAdapter({ logger: true })
-  const app = await NestFactory.create(AppModule, adapter, { })
+  const app = await NestFactory.create(AppModule, adapter, {
+    logger: process.env.DEBUG ? undefined : false
+  })
   const config = new DocumentBuilder()
     .setTitle('AuthServer@ParkingSpace')
     .setDescription('Authorization & Authentification')
@@ -18,7 +20,13 @@ async function bootstrap () {
     always: true,
     whitelist: true,
     transform: true,
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
+    exceptionFactory: (errors) =>
+      new BadRequestException(
+        'VALIDATION_FAILED: ' +
+        errors
+          .map((v) => Object.values(v.constraints))
+          .flat().join('\n'))
   }))
 
   app.useGlobalFilters(new HttpExceptionFilter())
