@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ResolveTokenMiddleware } from 'src/crypto/crypto.middleware'
 import { CryptoModule } from 'src/crypto/crypto.module'
+import { HealthModule } from 'src/health/health.module'
 import { UsersModule } from 'src/users/users.module'
 import { DBConfigService } from './dbconfig.service'
 
@@ -15,6 +16,7 @@ import { DBConfigService } from './dbconfig.service'
       useClass: DBConfigService
     }),
     CryptoModule,
+    HealthModule,
     UsersModule
   ]
 })
