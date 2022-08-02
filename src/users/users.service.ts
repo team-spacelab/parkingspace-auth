@@ -1,7 +1,8 @@
-import { Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common'
+import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CryptoService } from 'src/crypto/crypto.service'
 import { Repository } from 'typeorm'
+import { CurrentUserDto } from './dto/CurrentUser.dto'
 import { SignupBodyDto } from './dto/SignupBody.dto'
 import { Users } from './users.entity'
 
@@ -41,5 +42,17 @@ export class UsersService {
       password,
       salt
     })
+  }
+
+  public async getCurrentUserInfo (userId: number): Promise<CurrentUserDto> {
+    const user = await this.users.findOneBy({ id: userId })
+    if (!user) throw new NotFoundException('USER_NOT_FOUND')
+
+    return {
+      id: userId,
+      login: user.login,
+      point: user.point,
+      nickname: user.nickname
+    }
   }
 }
