@@ -52,7 +52,11 @@ export class UsersService {
       id: userId,
       login: user.login,
       point: user.point,
-      nickname: user.nickname
+      nickname: user.nickname,
+      isVerified: user.isVerified,
+      birthday: (user.birthday.getMonth() + 1).toFixed(2) + user.birthday.getDate().toFixed(2),
+      phone: user.phone,
+      realname: user.realname
     }
   }
 }
