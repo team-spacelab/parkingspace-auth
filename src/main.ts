@@ -1,15 +1,17 @@
 import { BadRequestException, ValidationPipe, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { FastifyAdapter } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './app/app.module'
 import { HttpExceptionFilter } from './app/exception.filter'
+import cookieParser from 'cookie-parser'
+import morgan from 'morgan'
+import { Response } from 'express'
 
 async function bootstrap () {
-  const adapter = new FastifyAdapter({ logger: true })
-  const app = await NestFactory.create(AppModule, adapter, {
+  const app = await NestFactory.create(AppModule, {
     logger: process.env.DEBUG ? undefined : false
   })
+
   const config = new DocumentBuilder()
     .setTitle('AuthServer@ParkingSpace')
     .setDescription('Authorization & Authentification')
@@ -37,10 +39,23 @@ async function bootstrap () {
     defaultVersion: '1'
   })
 
+  app.use(cookieParser())
+  app.use(morgan((tokens, req, res) =>
+    JSON.stringify({
+      type: 'ACCESS_LOG',
+      method: tokens.method(req, res),
+      path: tokens.url(req, res),
+      return: tokens.status(req, res),
+      userAgent: tokens['user-agent'](req, res),
+      time: tokens['response-time'](req, res),
+      date: tokens.date(req, res, 'iso'),
+      locals: (res as Response).locals
+    })))
+
   const docs = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api/auth/_docs', app, docs)
 
-  await app.listen(3000, '0.0.0.0')
+  await app.listen(3000)
 }
 
 bootstrap()
