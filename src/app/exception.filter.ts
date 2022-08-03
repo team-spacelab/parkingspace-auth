@@ -12,7 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       .status(status)
       .send({
         success: false,
-        reason: status === 404
+        reason: status === 404 && !exception.message.includes('_')
           ? 'NOT_FOUND'
           : exception.message
       })
