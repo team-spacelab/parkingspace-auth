@@ -6,10 +6,11 @@ import { HttpExceptionFilter } from './app/exception.filter'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import { Response } from 'express'
+import { Logger } from './app/logger.service'
 
 async function bootstrap () {
   const app = await NestFactory.create(AppModule, {
-    logger: process.env.DEBUG ? undefined : false
+    logger: new Logger()
   })
 
   const config = new DocumentBuilder()
