@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Patch, Post, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
-import { ClientGuard } from 'src/crypto/crypto.guard'
-import { ResponseBody } from 'src/interface/ResponseBody'
+import { ClientGuard, ResponseBody } from 'parkingspace-commons'
 import { CurrentUserDto } from './dto/CurrentUser.dto'
 import { LoginBodyDto } from './dto/LoginBody.dto'
 import { SignupBodyDto } from './dto/SignupBody.dto'

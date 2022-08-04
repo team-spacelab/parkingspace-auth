@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { CryptoModule } from 'src/crypto/crypto.module'
+import { CryptoModule, Users } from 'parkingspace-commons'
 import { UsersController } from './users.controller'
-import { Users } from './users.entity'
 import { UsersService } from './users.service'
 
 @Module({

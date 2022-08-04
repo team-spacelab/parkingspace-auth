@@ -1,11 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ResolveTokenMiddleware } from 'src/crypto/crypto.middleware'
-import { CryptoModule } from 'src/crypto/crypto.module'
-import { HealthModule } from 'src/health/health.module'
-import { UsersModule } from 'src/users/users.module'
-import { DBConfigService } from './dbconfig.service'
+import { CryptoModule, DBConfigService, HealthModule, LoggerModule, ResolveTokenMiddleware } from 'parkingspace-commons'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -17,7 +14,8 @@ import { DBConfigService } from './dbconfig.service'
     }),
     CryptoModule,
     HealthModule,
-    UsersModule
+    UsersModule,
+    LoggerModule
   ]
 })
 export class AppModule implements NestModule {

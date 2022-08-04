@@ -1,11 +1,10 @@
 import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CryptoService } from 'src/crypto/crypto.service'
+import { CryptoService, Users } from 'parkingspace-commons'
 import { Repository } from 'typeorm'
 import { CurrentUserDto } from './dto/CurrentUser.dto'
 import { SignupBodyDto } from './dto/SignupBody.dto'
 import { UpdateUserDto } from './dto/UpdateUser.dto'
-import { Users } from './users.entity'
 
 @Injectable()
 export class UsersService {
