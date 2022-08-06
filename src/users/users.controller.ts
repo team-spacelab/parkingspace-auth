@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Patch, Post, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Patch, Post, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { ClientGuard, ResponseBody } from 'parkingspace-commons'
 import { CurrentUserDto } from './dto/CurrentUser.dto'
+import { DeleteUserDto } from './dto/DeleteUser.dto'
 import { LoginBodyDto } from './dto/LoginBody.dto'
 import { SignupBodyDto } from './dto/SignupBody.dto'
 import { UpdateUserDto } from './dto/UpdateUser.dto'
@@ -51,6 +52,26 @@ export class UsersController {
   @UseGuards(ClientGuard)
   public async patchCurrentUser (@Res({ passthrough: true }) res: Response, @Body() body: UpdateUserDto): Promise<ResponseBody> {
     await this.usersService.updateCurrentUserInfo(res.locals.userId, body)
+
+    return {
+      success: true
+    }
+  }
+
+  @Delete('@me')
+  @UseGuards(ClientGuard)
+  public async deleteCurrentUser (@Res({ passthrough: true }) res: Response, @Body() body: DeleteUserDto): Promise<ResponseBody> {
+    await this.usersService.deleteCurrentUser(res.locals.userId, body)
+
+    return {
+      success: true
+    }
+  }
+
+  @Post('@me/@restore')
+  @UseGuards(ClientGuard)
+  public async restoreCurrentUser (@Res({ passthrough: true }) res: Response): Promise<ResponseBody> {
+    await this.usersService.restoreCurrentUser(res.locals.userId)
 
     return {
       success: true

@@ -1,8 +1,9 @@
 import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CryptoService, Users } from 'parkingspace-commons'
+import { CryptoService, Users, UserStatus } from 'parkingspace-commons'
 import { Repository } from 'typeorm'
 import { CurrentUserDto } from './dto/CurrentUser.dto'
+import { DeleteUserDto } from './dto/DeleteUser.dto'
 import { SignupBodyDto } from './dto/SignupBody.dto'
 import { UpdateUserDto } from './dto/UpdateUser.dto'
 
@@ -85,6 +86,29 @@ export class UsersService {
       ...(userInfo.nickname === undefined ? {} : { nickname: userInfo.nickname }),
       ...(userInfo.realname === undefined ? {} : { realname: userInfo.realname }),
       ...(userInfo.newPassword === undefined ? {} : { password, salt })
+    })
+  }
+
+  public async deleteCurrentUser (userId: number, data: DeleteUserDto): Promise<void> {
+    const user = await this.users.findOneBy({ id: userId })
+    if (!user) throw new NotFoundException('USER_NOT_FOUND')
+
+    if (!this.cryptoService.verifyUserPassword(data.password, user)) {
+      throw new NotAcceptableException('PASSWORD_INVALID')
+    }
+
+    await this.users.update({ id: userId }, {
+      status: UserStatus.PENDING_DELETE,
+      deleteAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
+    })
+  }
+
+  public async restoreCurrentUser (userId: number): Promise<void> {
+    const user = await this.users.findOneBy({ id: userId })
+    if (!user) throw new NotFoundException('USER_NOT_FOUND')
+
+    await this.users.update({ id: userId }, {
+      status: UserStatus.ENABLED
     })
   }
 }
