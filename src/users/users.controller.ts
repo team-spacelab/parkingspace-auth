@@ -33,7 +33,8 @@ export class UsersController {
     await this.usersService.userSignup(body)
 
     return {
-      success: true
+      success: true,
+      data: undefined
     }
   }
 
@@ -54,7 +55,8 @@ export class UsersController {
     await this.usersService.updateCurrentUserInfo(res.locals.userId, body)
 
     return {
-      success: true
+      success: true,
+      data: undefined
     }
   }
 
@@ -64,7 +66,8 @@ export class UsersController {
     await this.usersService.deleteCurrentUser(res.locals.userId, body)
 
     return {
-      success: true
+      success: true,
+      data: undefined
     }
   }
 
@@ -74,7 +77,8 @@ export class UsersController {
     await this.usersService.restoreCurrentUser(res.locals.userId)
 
     return {
-      success: true
+      success: true,
+      data: undefined
     }
   }
 }
