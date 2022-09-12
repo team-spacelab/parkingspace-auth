@@ -85,6 +85,7 @@ export class UsersService {
       ...(userInfo.birthday === undefined ? {} : { birthday: userInfo.birthday }),
       ...(userInfo.nickname === undefined ? {} : { nickname: userInfo.nickname }),
       ...(userInfo.realname === undefined ? {} : { realname: userInfo.realname }),
+      ...(userInfo.phone === undefined ? {} : { phone: userInfo.phone }),
       ...(userInfo.newPassword === undefined ? {} : { password, salt })
     })
   }
