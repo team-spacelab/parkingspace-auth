@@ -1,3 +1,5 @@
+import { UserStatus } from 'parkingspace-commons'
+
 export class CurrentUserDto {
   id: number
   login: string
@@ -7,4 +9,5 @@ export class CurrentUserDto {
   realname?: string
   birthday?: string
   point: number
+  status: keyof typeof UserStatus
 }

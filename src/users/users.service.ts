@@ -57,7 +57,8 @@ export class UsersService {
       isVerified: user.isVerified,
       birthday: user.birthday ? (user.birthday.getMonth() + 1).toFixed(2) + user.birthday.getDate().toFixed(2) : undefined,
       phone: user.phone,
-      realname: user.realname
+      realname: user.realname,
+      status: UserStatus[user.status] as keyof typeof UserStatus
     }
   }
 
