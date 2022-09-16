@@ -20,7 +20,7 @@ export class UsersService {
   public async userLogin (login: string, password: string): Promise<string> {
     const user = await this.users.findOne({
       where: { login },
-      select: { password: true, salt: true }
+      select: { id: true, password: true, salt: true, status: true }
     })
     if (!user) throw new UnauthorizedException('USER_NOT_FOUND_OR_PASSWORD_INVALID')
 
@@ -54,10 +54,15 @@ export class UsersService {
         id: userId
       },
       select: {
+        id: true,
+        login: true,
+        point: true,
+        nickname: true,
+        isVerified: true,
+        birthday: true,
         phone: true,
         realname: true,
-        birthday: true,
-        point: true
+        status: true
       }
     })
     if (!user) throw new NotFoundException('USER_NOT_FOUND')
