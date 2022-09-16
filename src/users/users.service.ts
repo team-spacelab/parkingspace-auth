@@ -76,7 +76,15 @@ export class UsersService {
   }
 
   public async updateCurrentUserInfo (userId: number, userInfo: UpdateUserDto): Promise<void> {
-    const user = await this.users.findOneBy({ id: userId })
+    const user = await this.users.findOne({
+      select: {
+        password: true,
+        salt: true
+      },
+      where: {
+        id: userId
+      }
+    })
     if (!user) throw new NotFoundException('USER_NOT_FOUND')
 
     let password: undefined | string
@@ -105,7 +113,15 @@ export class UsersService {
   }
 
   public async deleteCurrentUser (userId: number, data: DeleteUserDto): Promise<void> {
-    const user = await this.users.findOneBy({ id: userId })
+    const user = await this.users.findOne({
+      select: {
+        password: true,
+        salt: true
+      },
+      where: {
+        id: userId
+      }
+    })
     if (!user) throw new NotFoundException('USER_NOT_FOUND')
 
     if (!this.cryptoService.verifyUserPassword(data.password, user)) {
