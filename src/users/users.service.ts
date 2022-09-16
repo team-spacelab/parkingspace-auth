@@ -18,7 +18,10 @@ export class UsersService {
   }
 
   public async userLogin (login: string, password: string): Promise<string> {
-    const user = await this.users.findOneBy({ login })
+    const user = await this.users.findOne({
+      where: { login },
+      select: { password: true, salt: true }
+    })
     if (!user) throw new UnauthorizedException('USER_NOT_FOUND_OR_PASSWORD_INVALID')
 
     const result = this.cryptoService.verifyUserPassword(password, user)
@@ -46,7 +49,17 @@ export class UsersService {
   }
 
   public async getCurrentUserInfo (userId: number): Promise<CurrentUserDto> {
-    const user = await this.users.findOneBy({ id: userId })
+    const user = await this.users.findOne({
+      where: {
+        id: userId
+      },
+      select: {
+        phone: true,
+        realname: true,
+        birthday: true,
+        point: true
+      }
+    })
     if (!user) throw new NotFoundException('USER_NOT_FOUND')
 
     return {
