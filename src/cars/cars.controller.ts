@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common'
-import { Cars, ResponseBody } from 'parkingspace-commons'
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UseGuards } from '@nestjs/common'
+import { Cars, ClientGuard, ResponseBody } from 'parkingspace-commons'
 import { CarService } from './cars.service'
 import { CreateMyCarDto } from './dto/CreateMyCar.dto'
 import { UpdateMyCarDto } from './dto/UpdateMyCar.dto'
@@ -13,6 +13,7 @@ export class CarController {
   }
 
   @Get('@me')
+  @UseGuards(ClientGuard)
   public async getMyCars (@Res({ passthrough: true }) res): Promise<ResponseBody<{ cars: Cars[] }>> {
     const cars = await this.carService.getMyCar(res.locals.userId)
 
@@ -25,6 +26,7 @@ export class CarController {
   }
 
   @Post('@me')
+  @UseGuards(ClientGuard)
   public async createMyCar (@Res({ passthrough: true }) res, @Body() body: CreateMyCarDto): Promise<ResponseBody<{ car: Cars }>> {
     const car = await this.carService.createMyCar(res.locals.userId, body)
 
@@ -37,6 +39,7 @@ export class CarController {
   }
 
   @Put(':carId')
+  @UseGuards(ClientGuard)
   public async updateMyCar (@Res({ passthrough: true }) res, @Param('carId') carId: number, @Body() body: UpdateMyCarDto): Promise<ResponseBody<{ car: Cars }>> {
     const car = await this.carService.updateMyCar(res.locals.userId, carId, body)
 
@@ -49,6 +52,7 @@ export class CarController {
   }
 
   @Delete(':carId')
+  @UseGuards(ClientGuard)
   public async deleteMyCar (@Res({ passthrough: true }) res, @Param('carId') carId: number): Promise<ResponseBody> {
     await this.carService.deleteMyCar(res.locals.userId, carId)
 
