@@ -20,6 +20,8 @@ export class CarService {
     const { generatedMaps } = await this.cars.insert({
       ...body,
       userId,
+      num: body.number,
+      alias: body.alias,
       type: CarType[body.type]
     })
 
