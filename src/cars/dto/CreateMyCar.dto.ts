@@ -15,7 +15,7 @@ export class CreateMyCarDto {
   public readonly number: string
 
   @IsString()
-  @IsIn([CarType.LIGHTCAR, CarType.COMPACTCAR, CarType.SUBCOMPACTCAR, CarType.MIDSIZECAR, CarType.SEMILARGECAR, CarType.LARGECAR])
+  @IsIn([CarType[CarType.LIGHTCAR], CarType[CarType.COMPACTCAR], CarType[CarType.SUBCOMPACTCAR], CarType[CarType.MIDSIZECAR], CarType[CarType.SEMILARGECAR], CarType[CarType.LARGECAR]])
   @ApiProperty()
   public readonly type: keyof typeof CarType
 }
