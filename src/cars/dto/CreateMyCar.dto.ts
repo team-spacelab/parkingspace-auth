@@ -10,7 +10,7 @@ export class CreateMyCarDto {
   public readonly alias: string
 
   @IsString()
-  @Length(8)
+  @Length(7, 16)
   @ApiProperty()
   public readonly number: string
 
