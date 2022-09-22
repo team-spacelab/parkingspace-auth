@@ -134,8 +134,8 @@ export class UsersService {
     }
 
     await this.users.update({ id: userId }, {
-      status: UserStatus.PENDING_DELETE,
-      deleteAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
+      status: UserStatus.DELETED,
+      deleteAt: new Date(Date.now())
     })
   }
 
